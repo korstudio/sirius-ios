@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import RxCocoa
 import RxSwift
 
-protocol HomeViewModelProtocol {
+final class HomeViewModel: BaseViewModel {
+    weak var delegate: HomeDelegate?
 
-}
+//    private var cities: []
 
-final class HomeViewModel: HomeViewModelProtocol {
+    func didLoad() {
 
+    }
 }

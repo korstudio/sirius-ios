@@ -21,6 +21,8 @@
 		1147DAB72A275D86006E3186 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1147DAB62A275D86006E3186 /* SnapKit */; };
 		1147DABC2A275FC0006E3186 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1147DABB2A275FC0006E3186 /* HomeViewController.swift */; };
 		1147DABE2A276056006E3186 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1147DABD2A276056006E3186 /* HomeViewModel.swift */; };
+		5C99E3FECBEB81290A9A437A /* CityNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C99E11C3E49A780390792EC /* CityNameCell.swift */; };
+		5C99EE188826D1CFED907619 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C99E08C68A4CF244B9825CD /* BaseViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		1147DAAA2A275D09006E3186 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
 		1147DABB2A275FC0006E3186 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1147DABD2A276056006E3186 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		5C99E08C68A4CF244B9825CD /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		5C99E11C3E49A780390792EC /* CityNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityNameCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,7 @@
 				1147DA9E2A275C23006E3186 /* Assets.xcassets */,
 				1147DAA02A275C23006E3186 /* LaunchScreen.storyboard */,
 				1147DAA32A275C23006E3186 /* Info.plist */,
+				5C99E995F864BEE1F0E3FB3D /* Base */,
 			);
 			path = SiriusiOS;
 			sourceTree = "<group>";
@@ -98,6 +103,7 @@
 		1147DAB82A275DD4006E3186 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5C99E11C3E49A780390792EC /* CityNameCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -124,6 +130,14 @@
 			children = (
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		5C99E995F864BEE1F0E3FB3D /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				5C99E08C68A4CF244B9825CD /* BaseViewModel.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +228,8 @@
 				1147DA982A275C22006E3186 /* SceneDelegate.swift in Sources */,
 				1147DABE2A276056006E3186 /* HomeViewModel.swift in Sources */,
 				1147DABC2A275FC0006E3186 /* HomeViewController.swift in Sources */,
+				5C99EE188826D1CFED907619 /* BaseViewModel.swift in Sources */,
+				5C99E3FECBEB81290A9A437A /* CityNameCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
