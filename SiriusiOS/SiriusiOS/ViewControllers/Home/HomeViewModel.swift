@@ -93,7 +93,7 @@ private extension HomeViewModel {
         }
         
         filteredCities = subject.filter { s in
-            s.contains(keyword)
+            s.lowercased().contains(keyword.lowercased())
         }
         
         filterState = .filtered
