@@ -73,6 +73,10 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
     }
+    
+    func dispose(_ disposable: Disposable) {
+        disposable.disposed(by: disposeBag)
+    }
 
     func filter(with keyword: String = "") {
         self.keyword.onNext(keyword)
