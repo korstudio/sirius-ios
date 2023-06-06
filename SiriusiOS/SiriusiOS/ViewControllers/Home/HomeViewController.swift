@@ -67,10 +67,11 @@ extension HomeViewController: UITableViewDataSource & UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CityNameCell.id, for: indexPath)
+        let key = viewModel.getKey(at: indexPath.row)
         
         if let cityCell = cell as? CityNameCell,
-           let city = viewModel.getCity(with: "") {
-            cityCell.set(name: city.name)
+           let city = viewModel.getCity(with: key) {
+            cityCell.set(name: city.title)
         }
         
         return cell

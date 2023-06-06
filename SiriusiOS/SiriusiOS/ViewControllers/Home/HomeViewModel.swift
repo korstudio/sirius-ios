@@ -77,6 +77,14 @@ final class HomeViewModel: BaseViewModel {
     func filter(with keyword: String = "") {
         self.keyword.onNext(keyword)
     }
+    
+    func getKey(at index: Int) -> String {
+        if filterState == .filtered {
+            return filteredCities[index]
+        }
+        
+        return cityTitles[index]
+    }
 
     func getCity(with key: String) -> City? {
         cities[key]
