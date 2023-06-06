@@ -7,10 +7,13 @@
 
 import Foundation
 
-struct City: Codable {
+struct City: Codable, Equatable, Comparable {
     let name: String
     let country: String
     let coord: Coord
+    var title: String {
+        "\(name), \(coord)"
+    }
 
     struct Coord: Codable {
         let lat: Double
@@ -22,4 +25,15 @@ struct City: Codable {
         }
     }
 
+    static func ==(lhs: City, rhs: City) -> Bool {
+        lhs.title == rhs.title
+    }
+
+    static func >(lhs: City, rhs: City) -> Bool {
+        lhs.name > rhs.name && lhs.country > rhs.country
+    }
+
+    static func <(lhs: City, rhs: City) -> Bool {
+        lhs.name < rhs.name && lhs.country < rhs.country
+    }
 }

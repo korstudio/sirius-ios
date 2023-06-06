@@ -26,9 +26,9 @@ final class HomeViewModel: BaseViewModel {
     private var cities: [String: City] = [:]
     
     // store keys (ie. "City, CO") as filtering keys
-    // `citiesSet` stores all keys
-    private var citiesSet: Set<String> = []
-    private var filteredCities: Set<String> = []
+    // `cityTitles` stores all keys
+    private var cityTitles: [String] = []
+    private var filteredCities: [String] = []
 
     // filtering state
     private var filterState: FilterState = .none
@@ -54,7 +54,7 @@ final class HomeViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
 
-    func observeFilter(next: @escaping (Set<String>) -> ()) {
+    func observeFilter(next: @escaping ([String]) -> ()) {
         // after receiving new keyword, do filtering
         // receiving next(:) from view as a callback
         // so view won't have to do a subscription
@@ -66,7 +66,7 @@ final class HomeViewModel: BaseViewModel {
                 if self?.filterState == .filtered,
                    let set = self?.filteredCities {
                     next(set)
-                } else if let all = self?.citiesSet {
+                } else if let all = self?.cityTitles {
                     next(all)
                 }
             }
@@ -94,15 +94,18 @@ private extension HomeViewModel {
             }
 
            self?.cities = [:]
-           self?.citiesSet = []
+           self?.cityTitles = []
            self?.filteredCities = []
 
             fileContent.forEach { city in
-                let key = "\(city.name), \(city.country.uppercased())"
+                let key = city.title
                 self?.cities[key] = city
-                self?.citiesSet.insert(key)
+                self?.cityTitles.append(key)
             }
 
+           self?.cityTitles.sort { lhs, rhs in
+               lhs < rhs
+           }
            single(.success(()))
            return Disposables.create()
         }
@@ -115,15 +118,15 @@ private extension HomeViewModel {
             return
         }
         
-        let subject: Set<String>
+        let subject: [String]
         if filterState == .filtered {
             subject = filteredCities
         } else {
-            subject = citiesSet
+            subject = cityTitles
         }
         
         filteredCities = subject.filter { s in
-            s.lowercased().contains(keyword.lowercased())
+            s.range(of: keyword, options: .caseInsensitive) != nil
         }
         
         filterState = .filtered
