@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol HomeDelegate: AnyObject {
-
+    func displayData()
 }
 
 class HomeViewController: UIViewController {
@@ -55,7 +55,9 @@ private extension HomeViewController {
 }
 
 extension HomeViewController: HomeDelegate {
-
+    func displayData() {
+        tableView.reloadData()
+    }
 }
 
 extension HomeViewController: UITableViewDataSource & UITableViewDelegate {

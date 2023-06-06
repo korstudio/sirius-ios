@@ -9,6 +9,10 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+enum HomeError: Error {
+    case dataError
+}
+
 final class HomeViewModel: BaseViewModel {
     // filtering state enum
     enum FilterState {
@@ -43,6 +47,11 @@ final class HomeViewModel: BaseViewModel {
 
     func didLoad() {
         loadData()
+            .subscribe(on: MainScheduler.asyncInstance)
+            .subscribe { [weak self] _ in
+                self?.delegate?.displayData()
+            }
+            .disposed(by: disposeBag)
     }
 
     func observeFilter(next: @escaping (Set<String>) -> ()) {
@@ -74,8 +83,29 @@ final class HomeViewModel: BaseViewModel {
 }
 
 private extension HomeViewModel {
-    func loadData() {
-        // stub method
+    func loadData() -> Single<Void> {
+       Single<Void>.create { [weak self] single in
+            let decoder = JSONDecoder()
+            guard let url = Bundle.main.url(forResource: "cities", withExtension: "json"),
+                  let data = try? Data(contentsOf: url),
+                  let fileContent: [City] = try? decoder.decode([City].self, from: data)
+            else {
+                return Disposables.create()
+            }
+
+           self?.cities = [:]
+           self?.citiesSet = []
+           self?.filteredCities = []
+
+            fileContent.forEach { city in
+                let key = "\(city.name), \(city.country.uppercased())"
+                self?.cities[key] = city
+                self?.citiesSet.insert(key)
+            }
+
+           single(.success(()))
+           return Disposables.create()
+        }
     }
     
     func doFilter(_ keyword: String) {
