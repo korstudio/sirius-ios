@@ -117,7 +117,7 @@ extension HomeViewController: UITableViewDataSource & UITableViewDelegate {
         
         if let cityCell = cell as? CityNameCell,
            let city = viewModel.getCity(with: key) {
-            cityCell.set(name: city.title)
+            cityCell.set(city: city)
         }
         
         return cell

@@ -18,6 +18,9 @@ struct City: Codable, Equatable, Comparable {
     struct Coord: Codable {
         let lat: Double
         let lng: Double
+        var text: String {
+            "(\(lat), \(lng))"
+        }
 
         enum CodingKeys: String, CodingKey {
             case lat
