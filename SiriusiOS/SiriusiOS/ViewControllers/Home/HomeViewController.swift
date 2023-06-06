@@ -86,6 +86,16 @@ private extension HomeViewController {
         viewModel.observeFilter { [weak self] cities in
             self?.tableView.reloadData()
         }
+        
+        let filterDisposable = filterTextField
+            .rx
+            .controlEvent(.editingChanged)
+            .withLatestFrom(filterTextField.rx.text.orEmpty)
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] keyword in
+                self?.viewModel.filter(with: keyword)
+            })
+        viewModel.dispose(filterDisposable)
     }
 }
 
