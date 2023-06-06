@@ -66,6 +66,13 @@ extension HomeViewController: UITableViewDataSource & UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        .init()
+        let cell = tableView.dequeueReusableCell(withIdentifier: CityNameCell.id, for: indexPath)
+        
+        if let cityCell = cell as? CityNameCell,
+           let city = viewModel.getCity(with: "") {
+            cityCell.set(name: city.name)
+        }
+        
+        return cell
     }
 }
