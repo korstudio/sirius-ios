@@ -19,12 +19,13 @@ final class HomeViewModel: BaseViewModel {
         case none
         case filtered
     }
+
     // TODO: consider removing this (or not)
     weak var delegate: HomeDelegate?
 
     // store all data in a dictionary
     private var cities: [String: City] = [:]
-    
+
     // store keys (ie. "City, CO") as filtering keys
     // `cityTitles` stores all keys
     private var cityTitles: [String] = []
@@ -32,7 +33,7 @@ final class HomeViewModel: BaseViewModel {
 
     // filtering state
     private var filterState: FilterState = .none
-    
+
     // keyword as a publish subject, indefinitely broadcast value
     private var keyword: PublishSubject<String> = .init()
     private let disposeBag: DisposeBag = .init()
@@ -54,7 +55,7 @@ final class HomeViewModel: BaseViewModel {
             .disposed(by: disposeBag)
     }
 
-    func observeFilter(next: @escaping ([String]) -> ()) {
+    func observeFilter(next: @escaping ([String]) -> Void) {
         // after receiving new keyword, do filtering
         // receiving next(:) from view as a callback
         // so view won't have to do a subscription
@@ -84,7 +85,7 @@ final class HomeViewModel: BaseViewModel {
 
 private extension HomeViewModel {
     func loadData() -> Single<Void> {
-       Single<Void>.create { [weak self] single in
+        Single<Void>.create { [weak self] single in
             let decoder = JSONDecoder()
             guard let url = Bundle.main.url(forResource: "cities", withExtension: "json"),
                   let data = try? Data(contentsOf: url),
@@ -93,9 +94,9 @@ private extension HomeViewModel {
                 return Disposables.create()
             }
 
-           self?.cities = [:]
-           self?.cityTitles = []
-           self?.filteredCities = []
+            self?.cities = [:]
+            self?.cityTitles = []
+            self?.filteredCities = []
 
             fileContent.forEach { city in
                 let key = city.title
@@ -103,32 +104,32 @@ private extension HomeViewModel {
                 self?.cityTitles.append(key)
             }
 
-           self?.cityTitles.sort { lhs, rhs in
-               lhs < rhs
-           }
-           single(.success(()))
-           return Disposables.create()
+            self?.cityTitles.sort { lhs, rhs in
+                lhs < rhs
+            }
+            single(.success(()))
+            return Disposables.create()
         }
     }
-    
+
     func doFilter(_ keyword: String) {
         if keyword.isEmpty {
             filterState = .none
             filteredCities = []
             return
         }
-        
+
         let subject: [String]
         if filterState == .filtered {
             subject = filteredCities
         } else {
             subject = cityTitles
         }
-        
+
         filteredCities = subject.filter { s in
             s.range(of: keyword, options: .caseInsensitive) != nil
         }
-        
+
         filterState = .filtered
     }
 }
