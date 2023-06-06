@@ -36,6 +36,7 @@ final class HomeViewModel: BaseViewModel {
 
     // keyword as a publish subject, indefinitely broadcast value
     private var keyword: PublishSubject<String> = .init()
+    private var previousKeyword = ""
     private let disposeBag: DisposeBag = .init()
 
     var numOfCities: Int {
@@ -128,11 +129,12 @@ private extension HomeViewModel {
         if keyword.isEmpty {
             filterState = .none
             filteredCities = []
+            previousKeyword = ""
             return
         }
 
         let subject: [String]
-        if filterState == .filtered {
+        if filterState == .filtered, previousKeyword.count < keyword.count {
             subject = filteredCities
         } else {
             subject = cityTitles
@@ -143,5 +145,6 @@ private extension HomeViewModel {
         }
 
         filterState = .filtered
+        previousKeyword = keyword
     }
 }
