@@ -12,7 +12,7 @@ struct City: Codable, Equatable, Comparable {
     let country: String
     let coord: Coord
     var title: String {
-        "\(name), \(coord)"
+        "\(name), \(country)"
     }
 
     struct Coord: Codable {
