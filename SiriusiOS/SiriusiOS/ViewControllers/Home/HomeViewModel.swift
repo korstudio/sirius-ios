@@ -8,6 +8,8 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import CoreLocation
+import MapKit
 
 enum HomeError: Error {
     case dataError
@@ -93,6 +95,18 @@ final class HomeViewModel: BaseViewModel {
 
     func getCity(with key: String) -> City? {
         cities[key]
+    }
+    
+    func existed(key: String) -> Bool {
+        getCity(with: key) != nil
+    }
+    
+    func openMap(for key: String) {
+        guard let city = getCity(with: key) else { return }
+        let locCoords = CLLocationCoordinate2D(latitude: city.coord.lat, longitude: city.coord.lng)
+        let mapItem = MKMapItem(placemark: .init(coordinate: locCoords))
+        mapItem.name = key
+        mapItem.openInMaps()
     }
 }
 

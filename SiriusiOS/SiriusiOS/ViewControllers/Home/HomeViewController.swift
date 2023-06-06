@@ -122,4 +122,11 @@ extension HomeViewController: UITableViewDataSource & UITableViewDelegate {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let key = viewModel.getKey(at: indexPath.row)
+        if viewModel.existed(key: key) {
+            viewModel.openMap(for: key)
+        }
+    }
 }
