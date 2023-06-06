@@ -14,10 +14,28 @@ protocol HomeDelegate: AnyObject {
 
 class HomeViewController: UIViewController {
     private let viewModel: HomeViewModel
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+
+    private lazy var filterTextField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.leftView = .init(frame: .init(x: 0, y: 0, width: 12, height: 70))
+        textField.leftViewMode = .always
+        textField.clearButtonMode = .always
+        textField.placeholder = "Search"
+        textField.backgroundColor = .init(white: 0.95, alpha: 1)
+        textField.textColor = .black
+        return textField
+    }()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.register(CityNameCell.self, forCellReuseIdentifier: CityNameCell.id)
+        tableView.keyboardDismissMode = .onDrag
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
@@ -25,7 +43,7 @@ class HomeViewController: UIViewController {
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
-        super.init()
+        super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
     }
 
@@ -41,10 +59,27 @@ class HomeViewController: UIViewController {
 
 private extension HomeViewController {
     func setupViews() {
+        view.backgroundColor = .white
+        
+        view.addSubview(filterTextField)
+        filterTextField.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(70)
+        }
+
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(filterTextField.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        activityIndicator.startAnimating()
     }
     
     func setupObservers() {
@@ -56,6 +91,7 @@ private extension HomeViewController {
 
 extension HomeViewController: HomeDelegate {
     func displayData() {
+        activityIndicator.stopAnimating()
         tableView.reloadData()
     }
 }
