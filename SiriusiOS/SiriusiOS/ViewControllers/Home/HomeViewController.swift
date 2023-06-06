@@ -34,6 +34,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.didLoad()
+        setupViews()
+        setupObservers()
     }
 }
 
@@ -44,6 +46,12 @@ private extension HomeViewController {
             $0.edges.equalToSuperview()
         }
     }
+    
+    func setupObservers() {
+        viewModel.observeFilter { [weak self] cities in
+            self?.tableView.reloadData()
+        }
+    }
 }
 
 extension HomeViewController: HomeDelegate {
@@ -52,10 +60,10 @@ extension HomeViewController: HomeDelegate {
 
 extension HomeViewController: UITableViewDataSource & UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        viewModel.numOfCities
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        .init()
     }
 }
